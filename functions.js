@@ -5,8 +5,22 @@
  * - returns the book object that matches that id
  * - returns undefined if no matching book is found
  ****************************************************************/
+// import books from "./books.json";
 function getBookById(bookId, books) {
   // Your code goes here
+  // var bookk;
+  // books.forEach(function(book){
+  //   if (book["id"] === bookId) {
+      
+  //   bookk = book
+  //   }
+  // });
+  // return bookk
+
+  let bookFound = books.find(function(book){
+    return book["id"] === bookId
+  })
+  return bookFound
 }
 
 /**************************************************************
@@ -18,6 +32,10 @@ function getBookById(bookId, books) {
  ****************************************************************/
 function getAuthorByName(authorName, authors) {
   // Your code goes here
+  let authorFound = authors.find(function(author){
+    return author["name"].toLowerCase() == authorName.toLowerCase()
+  })
+  return authorFound
 }
 
 /**************************************************************
@@ -28,6 +46,12 @@ function getAuthorByName(authorName, authors) {
  ****************************************************************/
 function bookCountsByAuthor(authors) {
   // Your code goes here
+
+  let formattedAuthors = authors.map(function(author) {
+    return {author: author["name"], bookCount: author["books"].length}
+  })
+
+  return formattedAuthors
 }
 
 /**************************************************************
@@ -42,6 +66,14 @@ function booksByColor(books) {
 
   // Your code goes here
 
+  books.forEach(function(book){
+    if (colors[book["color"]]) {
+      colors[book["color"]].push(book["title"])
+    }
+    else {
+      colors[book["color"]] = [book["title"]]
+    }
+  })
   return colors;
 }
 
@@ -55,6 +87,17 @@ function booksByColor(books) {
  ****************************************************************/
 function titlesByAuthorName(authorName, authors, books) {
   // Your code goes here
+  let titles = []
+  books.forEach(function(book){
+    book["authors"].forEach(function(auth) {
+       if (auth["name"].toLowerCase() == authorName.toLowerCase()) {
+         titles.push(book["title"])
+        
+       }
+    })
+ 
+  })
+  return titles
 }
 
 /**************************************************************
@@ -65,7 +108,17 @@ function titlesByAuthorName(authorName, authors, books) {
  * Note: assume there will never be a tie
  ****************************************************************/
 function mostProlificAuthor(authors) {
+  // *    [{ author: <NAME>, bookCount: <NUMBER_OF_BOOKS> }]
   // Your code goes here
+  // bookCountsByAuthor(authors).forEach(function(item){
+   let x =  bookCountsByAuthor(authors).sort(function(a, b){
+    if (a.bookCount > b.bookCount) return 1;
+    if (b.bookCount > a.bookCount) return -1;
+  
+    return 0;
+  });
+  return x[x.length -1].author 
+
 }
 
 /**************************************************************
@@ -93,6 +146,25 @@ function mostProlificAuthor(authors) {
  ****************************************************************/
 function relatedBooks(bookId, authors, books) {
   // Your code goes here
+  let titles = []
+  let auths = []
+  let book = getBookById(bookId, books)
+  // books.forEach(function(book){
+  book["authors"].forEach(function(auth) {
+  
+    auths.push(auth["name"])
+     
+    
+ })
+ console.log(auths)
+ 
+ auths.forEach(function(auther) {
+
+   titles.push(...titlesByAuthorName(auther, authors, books))
+ })
+// })
+console.log(titles)
+  return titles
 }
 
 /**************************************************************
@@ -103,6 +175,12 @@ function relatedBooks(bookId, authors, books) {
  ****************************************************************/
 function friendliestAuthor(authors) {
   // Your code goes here
+  authors.forEach(function(author){
+    author["books"].forEach(function(bookId) {
+      //not done yet
+    })
+
+  })
 }
 
 module.exports = {
