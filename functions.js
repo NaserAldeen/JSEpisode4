@@ -148,11 +148,7 @@ function relatedBooks(bookId, authors, books) {
   let auths = []
   let book = getBookById(bookId, books)
   book["authors"].forEach(function(auth) { 
-    auths.push(auth["name"])
-
- })
- auths.forEach(function(auther) {
-   titles.push(...titlesByAuthorName(auther, authors, books))
+    titles.push(...titlesByAuthorName(auth.name, authors, books))
  })
 
  //This is to remove the duplicates
