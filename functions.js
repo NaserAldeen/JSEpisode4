@@ -97,6 +97,7 @@ function titlesByAuthorName(authorName, authors, books) {
     })
  
   })
+ 
   return titles
 }
 
@@ -108,9 +109,6 @@ function titlesByAuthorName(authorName, authors, books) {
  * Note: assume there will never be a tie
  ****************************************************************/
 function mostProlificAuthor(authors) {
-  // *    [{ author: <NAME>, bookCount: <NUMBER_OF_BOOKS> }]
-  // Your code goes here
-  // bookCountsByAuthor(authors).forEach(function(item){
    let x =  bookCountsByAuthor(authors).sort(function(a, b){
     if (a.bookCount > b.bookCount) return 1;
     if (b.bookCount > a.bookCount) return -1;
@@ -149,22 +147,18 @@ function relatedBooks(bookId, authors, books) {
   let titles = []
   let auths = []
   let book = getBookById(bookId, books)
-  // books.forEach(function(book){
-  book["authors"].forEach(function(auth) {
-  
+  book["authors"].forEach(function(auth) { 
     auths.push(auth["name"])
-     
-    
- })
- console.log(auths)
- 
- auths.forEach(function(auther) {
 
+ })
+ auths.forEach(function(auther) {
    titles.push(...titlesByAuthorName(auther, authors, books))
  })
-// })
-console.log(titles)
-  return titles
+
+ //This is to remove the duplicates
+//  let unique = [...new Set(titles)];
+//   return unique
+return titles
 }
 
 /**************************************************************
@@ -190,7 +184,6 @@ function friendliestAuthor(authors) {
   authors.sort(function(a, b){
     if (a.score > b.score) return 1;
     if (b.score > a.score) return -1;
-  
     return 0;
   });
   return authors[authors.length -1 ]["name"]
