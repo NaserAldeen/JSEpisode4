@@ -175,12 +175,25 @@ console.log(titles)
  ****************************************************************/
 function friendliestAuthor(authors) {
   // Your code goes here
-  authors.forEach(function(author){
-    author["books"].forEach(function(bookId) {
-      //not done yet
-    })
+  authors.forEach(author1 => {
+    author1.score = 0;
+    authors.forEach(author2 => {
+      if (author1.name !== author2.name) {
+        const sharedBooks = author1.books.filter(bookId =>
+          author2.books.includes(bookId)
+        );
+        author1.score += sharedBooks.length;
+      }
+    });
+  });
 
-  })
+  authors.sort(function(a, b){
+    if (a.score > b.score) return 1;
+    if (b.score > a.score) return -1;
+  
+    return 0;
+  });
+  return authors[authors.length -1 ]["name"]
 }
 
 module.exports = {
